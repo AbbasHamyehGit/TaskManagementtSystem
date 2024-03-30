@@ -101,7 +101,7 @@ namespace TaskManagementAPI.Controllers
     
         // GET: api/Tasks/ForPerson/5
         [HttpGet("ForPerson/{personId}")]
-         [Authorize]
+        // [Authorize]
         public async Task<ActionResult<IEnumerable<Task>>> GetTasksForPerson(int personId)
         {
             var tasksForPerson = await _context.Tasks.Where(t => t.PersonId == personId).ToListAsync();
