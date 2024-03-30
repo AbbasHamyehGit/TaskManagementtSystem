@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using TaskManagementAPI.Data;
 using TaskManagementAPI.Models;
+
 
 namespace TaskManagementAPI.Controllers
 {
@@ -13,45 +19,78 @@ namespace TaskManagementAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly SignInManager<Person> _signInManager;
         private readonly UserManager<Person> _userManager;
+        private readonly SignInManager<Person> _signInManager;
+        private readonly AppDbContext _context;
+        private readonly ILogger<AccountController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(AppDbContext context, SignInManager<Person> signInManager, UserManager<Person> userManager)
+        public AccountController(UserManager<Person> userManager, SignInManager<Person> signInManager, ILogger<AccountController> logger, AppDbContext context, IConfiguration configuration)
         {
-            _context = context;
-            _signInManager = signInManager;
             _userManager = userManager;
-        }
-        // POST: api/Account/Login
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return BadRequest("Invalid email or password.");
-            }
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
-            if (result.Succeeded)
-            {
-                return Ok("Login successful.");
-            }
-            else
-            {
-                return BadRequest("Invalid email or password.");
-            }
+            _signInManager = signInManager;
+            _logger = logger;
+            _context = context;
+            _configuration = configuration;
         }
 
+         // POST: api/Account/Login
 
-        // POST: api/Account/Logout
+[HttpPost("login")]
+public async Task<IActionResult> Login(LoginModel model)
+{
+    var user = await _context.Person.FirstOrDefaultAsync(u => u.Email == model.Email);
+    if (user == null)
+    {
+        return NotFound("Invalid email or password.");
+    }
+
+    if (user.Password != model.Password)
+    {
+        return Unauthorized("Invalid email or password.");
+    }
+
+    // Generate JWT token
+      var token = GenerateJwtToken(user);
+      var userName = model.Email?.Substring(0, model.Email.IndexOf('@'));
+        return Ok(new { message = $"Welcome {userName}",token });
+}
+
+private string GenerateJwtToken(Person user)
+{
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here")); // Replace with a strong secret key
+    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+    var claims = new[]
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Email, user.Email),
+        // Add more claims as needed
+    };
+
+    var token = new JwtSecurityToken(
+        issuer: "PostmanTestIssuer",
+        audience: "http://localhost:5213", // Base URL of your API
+        claims: claims,
+        expires: DateTime.Now.AddMinutes(30),
+        signingCredentials: credentials
+    );
+
+    return new JwtSecurityTokenHandler().WriteToken(token);
+}
+
+
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            // Implement logout logic here if needed
             return Ok("Logout successful.");
         }
+
+
+
         // GET: api/Account
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetPersons()

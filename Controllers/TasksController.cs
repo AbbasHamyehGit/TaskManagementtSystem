@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TaskManagementAPI.Data;
 using Task = TaskManagementAPI.Models.Task; // Specify the Task class from your Models namespace
 using Person = TaskManagementAPI.Models.Person;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace TaskManagementAPI.Controllers
 {
@@ -96,9 +98,10 @@ namespace TaskManagementAPI.Controllers
         }
 
 
-
+    
         // GET: api/Tasks/ForPerson/5
         [HttpGet("ForPerson/{personId}")]
+         [Authorize]
         public async Task<ActionResult<IEnumerable<Task>>> GetTasksForPerson(int personId)
         {
             var tasksForPerson = await _context.Tasks.Where(t => t.PersonId == personId).ToListAsync();
