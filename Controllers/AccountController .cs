@@ -36,25 +36,26 @@ namespace TaskManagementAPI.Controllers
 
          // POST: api/Account/Login
 
-[HttpPost("login")]
-public async Task<IActionResult> Login(LoginModel model)
-{
-    var user = await _context.Person.FirstOrDefaultAsync(u => u.Email == model.Email);
-    if (user == null)
+ [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginModel model)
     {
-        return NotFound("Invalid email or password.");
+        var user = await _context.Person.FirstOrDefaultAsync(u => u.Email == model.Email);
+
+        if (user == null || user.Password != model.Password)
+        {
+            return Unauthorized("Invalid email or password.");
+        }
+
+        // Generate JWT token
+    //    var token = GenerateJwtToken(user);
+        var userName = model.Email?.Substring(0, model.Email.IndexOf('@'));
+
+        // Retrieve tasks for the logged-in user
+        var tasksForUser = await _context.Tasks.Where(t => t.PersonId == user.Id).ToListAsync();
+
+        return Ok(new { message = $"Welcome {userName}", tasksForUser });
     }
 
-    if (user.Password != model.Password)
-    {
-        return Unauthorized("Invalid email or password.");
-    }
-
-    // Generate JWT token
-      var token = GenerateJwtToken(user);
-      var userName = model.Email?.Substring(0, model.Email.IndexOf('@'));
-        return Ok(new { message = $"Welcome {userName}",token });
-}
 
 private string GenerateJwtToken(Person user)
 {
