@@ -13,6 +13,7 @@ namespace TaskManagementAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+	//[Authorize]
     public class TasksController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -31,7 +32,9 @@ namespace TaskManagementAPI.Controllers
         }
 
         // GET: api/Tasks/5
+		
         [HttpGet("{id}")]
+		
         public async Task<ActionResult<Task>> GetTask(int id)
         {
             var task = await _context.Tasks.FindAsync(id);

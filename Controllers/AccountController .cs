@@ -11,12 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagementAPI.Data;
 using TaskManagementAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace TaskManagementAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+	
     public class AccountController : ControllerBase
     {
         private readonly UserManager<Person> _userManager;
@@ -49,11 +51,11 @@ public async Task<IActionResult> Login(LoginModel model)
     var userName = model.Email?.Substring(0, model.Email.IndexOf('@'));
 
     // Retrieve tasks for the logged-in user
-
+var token = GenerateJwtToken(user);
     // Return username, email, and isadmin column
     return Ok(new
     {
-        message = $"Welcome {userName}",
+        token,
         id = user.Id,
         userName = user.UserName,
         email = user.Email,
