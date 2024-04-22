@@ -26,7 +26,7 @@ namespace TaskManagementAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            // You should implement validating the user here, for simplicity, I'm just using a hardcoded example
+         
             if (request.Username != "user" || request.Password != "password")
             {
                 return BadRequest("Invalid credentials");

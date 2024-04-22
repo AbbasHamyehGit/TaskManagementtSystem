@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\TaskManagementtSystem\\TaskManagementAPI.csproj": {}
+    "C:\\Users\\pc\\TaskManagementtSystem\\TaskManagementAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\TaskManagementtSystem\\TaskManagementAPI.csproj": {
+    "C:\\Users\\pc\\TaskManagementtSystem\\TaskManagementAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\TaskManagementtSystem\\TaskManagementAPI.csproj",
+        "projectUniqueName": "C:\\Users\\pc\\TaskManagementtSystem\\TaskManagementAPI.csproj",
         "projectName": "TaskManagementAPI",
-        "projectPath": "C:\\Users\\User\\TaskManagementtSystem\\TaskManagementAPI.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\TaskManagementtSystem\\obj\\",
+        "projectPath": "C:\\Users\\pc\\TaskManagementtSystem\\TaskManagementAPI.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pc\\TaskManagementtSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

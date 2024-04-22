@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace TaskManagementAPI.Controllers
 {
     [ApiController]
-    [Authorize] // Add this attribute to restrict access to authenticated users
+    [Authorize] 
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {

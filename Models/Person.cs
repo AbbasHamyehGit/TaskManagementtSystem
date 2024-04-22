@@ -11,7 +11,7 @@ namespace TaskManagementAPI.Models
         // Constructor to initialize non-nullable properties
         public Person()
         {
-            Password = "passwordSTRONG123"; // Provide a default value or use another mechanism to set the password
+            Password = "RWEGFRS@$THGTYEJRETSY46";
         }
     }
 }

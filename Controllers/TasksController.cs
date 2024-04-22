@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskManagementAPI.Data;
-using Task = TaskManagementAPI.Models.Task; // Specify the Task class from your Models namespace
+using Task = TaskManagementAPI.Models.Task;
 using Person = TaskManagementAPI.Models.Person;
 using Microsoft.AspNetCore.Authorization;
 

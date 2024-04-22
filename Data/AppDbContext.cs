@@ -10,8 +10,8 @@ namespace TaskManagementAPI.Data
         {
         }
 
-        public DbSet<Person> Person { get; set; } // DbSet for Person
-        public DbSet<Task> Tasks { get; set; } // DbSet for Task
+        public DbSet<Person> Person { get; set; } 
+        public DbSet<Task> Tasks { get; set; } 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

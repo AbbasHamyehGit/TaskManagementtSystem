@@ -67,7 +67,7 @@ var token = GenerateJwtToken(user);
 
 private string GenerateJwtToken(Person user)
 {
-    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here")); // Replace with a strong secret key
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GASRTHYTTRHFGSDFERG556Y5")); 
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
     var claims = new[]
@@ -75,12 +75,12 @@ private string GenerateJwtToken(Person user)
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
         new Claim(ClaimTypes.Name, user.UserName),
         new Claim(ClaimTypes.Email, user.Email),
-        // Add more claims as needed
+        
     };
 
     var token = new JwtSecurityToken(
         issuer: "PostmanTestIssuer",
-        audience: "http://localhost:5213", // Base URL of your API
+        audience: "http://localhost:5213", 
         claims: claims,
         expires: DateTime.Now.AddMinutes(30),
         signingCredentials: credentials
@@ -94,7 +94,7 @@ private string GenerateJwtToken(Person user)
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            // Implement logout logic here if needed
+        
             return Ok("Logout successful.");
         }
 
